@@ -75,3 +75,18 @@ void insertInOrder(int* &array,int a , int len)
      }
    }
 }
+/**
+  Returns true if arg1 > arg2 else false
+*/
+bool intCmp(int arg1,int arg2)
+{
+	if(arg1 > arg2)
+		return true;
+	else
+		return false;
+}
+
+bool intIsEqual(int arg1,int arg2)
+{
+	return arg1 == arg2;
+}

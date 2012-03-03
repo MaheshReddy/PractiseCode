@@ -15,3 +15,4 @@ void Tokenize(const string& str,
                       const string& delimiters = " ");
 //void printVector(vector<string> tokens);
 void insertInOrder(int* &array,int a , int order);
+bool intCmp(int arg1,int arg2);
