@@ -1,10 +1,10 @@
 #include<stdio.h>
-#include<error.h>
+//#include<error.h>
 #include<stdlib.h>
 int main(int argc , char **argv)
 {
-    if (argc !=3)
-        error(1,0,"Usage ./a.out 2 3");
+    //if (argc !=3)
+      //  error(1,0,"Usage ./a.out 2 3");
    
     int a = atoi(argv[1]);
     int b = atoi(argv[2]);

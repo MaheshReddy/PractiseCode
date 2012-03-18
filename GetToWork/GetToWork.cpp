@@ -21,7 +21,7 @@ int main(int argc , char **argv)
    }
    char ch;
    int lineNumber=0;
-   vector<string> fileContents=readInputFile(argv[1]);
+   vector<string> fileContents=readInputFile(argv[1],READ_LINES);
    int inputSize=atoi(fileContents[lineNumber++].c_str());
    for (int i =0 ; i < inputSize;i++)
    {
