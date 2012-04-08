@@ -19,4 +19,8 @@ struct ll_node* ll_merge(struct ll_node* ll_left,struct ll_node* ll_right, int l
 
 struct ll_node* ll_merge_sort(struct ll_node* ll_head, int size);
 
+struct ll_node* ll_reverse_recurse(struct ll_node* ll_head);
+
+struct ll_node* ll_reverse_iter(struct ll_node* ll_head);
+void ll_delete_list(struct ll_node* ll_head);
 #endif
