@@ -1,0 +1,46 @@
+#!/bin/bash
+# @author   Small workspace management tool in bash.
+#  A small tool to manage worksapces on unix envs.
+#  
+#
+if [ $# -lt 1 ]
+then
+echo "Usage: Supports following command
+        1. add label --- adds pwd with label as 'label'to list of workspaces
+		2. rm  label --- rm the entry with label from list of workspaces 
+		3. change label --- switches to the workspace with label
+		4. list -- lists all available workspaces"
+		return -1
+fi
+
+if [ $1 = "add" ]
+then
+	echo $2:$PWD >> $HOME/.workspaces
+elif [ $1 = "rm" ]
+then
+	str=`sed  's/$2\^[\n]*//' $HOME/.workspaces`
+	echo $str > $HOME/.workspaces
+elif [ $1 = "list" ]
+then
+    cat ~/.workspaces
+elif [ $1 = "change" ]
+then 
+	workspace=$2
+	cat $HOME"/.workspaces" | while read line; do wrkspac=$(echo $line | sed 's/\:[a-zA-Z0-9\/\n]*//')   ;dir=$(echo $line|sed 's/[a-zA-Z0-9]*\://') ; if [ $workspace = $wrkspac ]; then  echo $dir > /tmp/wrkdir ; fi ; done
+	wait $!
+
+	if [ -f /tmp/wrkdir ]
+	then
+		wrkdir=$(cat /tmp/wrkdir)
+		rm /tmp/wrkdir
+	fi
+	echo "worksapce:"$wrkdir
+	cd $wrkdir
+
+	else 
+  echo "Usage: Supports following command
+        1. add label --- adds pwd with label as 'label'to list of workspaces
+		2. rm  label --- rm the entry with label from list of workspaces 
+		3. change label --- switches to the workspace with label
+		4. list -- lists all available workspaces"
+fi
