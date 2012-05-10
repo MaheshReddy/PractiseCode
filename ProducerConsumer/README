@@ -1,0 +1,50 @@
+README
+----------
+
+NamedMutex.cpp Implements semantics of a named mutex.
+
+Source Files
+-----------------------
+	1.NamedMutex.h -- Header file which contains the definition of NamedMutex class and its member variables and methods.
+	2. NamedMutex.cpp -- Implementation of all the methods of NamedMutex
+	3. testcases.cpp  -- Contains two testcases functions to test the functionality. 
+						1. test_multi_process --- tests for MultiProcess environment 
+						2. test_multi_thread ---- tests for MultiThreaded environment
+						Both of these testcases write synchronously using NamedMutex to testfile "test_file". 
+						we could see if these testcases work by analyzing the "test_file" to see all the writes are enclosed by
+						"LOCKED" and "UNLOCKING" keywords.
+Running testcases:
+------------------
+    1. Target kernel: Linux 2.6.32-40-generic #87-Ubuntu SMP i686 GNU/Linux
+	2. Do 'make' to compile the code and testcases.
+	3. Do ./a.out P/T. P for multiproces and T for multithreaded test case.
+    4.Both of these testcases write synchronously using NamedMutex to testfile "test_file". 
+      we could see if these testcases work by analyzing the "test_file" to see all the writes are enclosed by
+      "LOCKED" and "UNLOCKING" keywords. One could run 'tail -f test_file' to analyze the output generated.
+
+	Note:The various configuration parameters are defined in NamedMutex.h as #defines 
+
+High Level Overview of Solution:
+-------------------------------------
+     NamedMutex.cpp implements semantics of a named mutex by "File locking" using fcntl. Every time a process or a thread tries to obtain a lock we create a unique handle in "lcks_dir", through which process and threads having the same named semaphore can synchorize. 
+
+
+	Following are the steps to get a lock on a named semaphor
+	---------------------------------------------------------
+	 To get a Lock: 
+	 ------------------------------------------
+	 	1. First checks in the lcks_dir directory if a lock for this semaphore already exits. We do this by checking if their exists any 
+			file starting with "semname"(name of the sempahore).
+		2. If yes, then we create a link(with a random number appened to the "semname") and link it to the already existing file.
+		3. We assign this new link as our handle.
+		4. Now we try to get a lock on the handle, if no other process/thread has acquired the lock then I get the lock or else I get 
+		    blocked till some one release the lock or I acquire it.
+	  To release a lock: 
+	  ------------------
+	  	1. First release the lock on our handle using fcntl.
+		2. Then we unlink our handle.
+
+   To synchronize linking and unlinking of these handles we use lock on "master_file" in the lcks_dir directory, so that only one process acquires a lock.
+   Also locking on the master_file helps in avoiding two different process picking the same lock.
+
+
