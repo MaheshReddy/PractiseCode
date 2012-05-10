@@ -33,7 +33,7 @@ int h_put(unsigned int key,unsigned int value, struct h_table* table){
 	}
 	else{
 		struct h_entry* trav = table->h_buckets[bucket_no];
-		while(trav->ll_next != NULL)
+		while(trav->ll_next != NULL && trav->value != value)
 			trav = trav->ll_next;
 		trav->ll_next = entry;
 	}
